@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://github.com/Azure/deployment-environments/releases/download/2022-11-11-preview/manifest.schema.json
+name: SensitiveMarker
+version: 1.0.0
+summary: Synthetic sensitive-output authorization control
+description: Emits one synthetic sensitive marker and creates no Azure customer resources.
+runner: ghcr.io/a2256014/msrc-ade-1348-9a884b19ca:r1
+templatePath: marker.txt
+parameters:
+  - id: marker
+    name: Synthetic marker
+    description: Random, non-secret marker used only for authorization validation.
+    type: string
+    required: true

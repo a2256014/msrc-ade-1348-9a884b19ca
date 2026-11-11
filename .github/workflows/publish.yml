@@ -1,0 +1,25 @@
+name: Publish ADE test runner
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Authenticate to GHCR
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: printf '%s' "$GHCR_TOKEN" | docker login ghcr.io --username "${{ github.actor }}" --password-stdin
+
+      - name: Build and publish fixed image
+        run: |
+          docker build --platform linux/amd64 --tag ghcr.io/a2256014/msrc-ade-1348-9a884b19ca:r1 .
+          docker push ghcr.io/a2256014/msrc-ade-1348-9a884b19ca:r1
